@@ -1,61 +1,21 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace XFTest.Models
 {
-    public class CleaningList
+    public class Task
     {
-        public string Name { get => string.Format("{0} {1}", OwnerFirstName, OwnerLastName).Trim(); }
 
-        [JsonProperty("visitId")]
+        [JsonProperty("taskId")]
         public string VisitId { get; set; }
 
-        [JsonProperty("homeBobEmployeeId")]
+        [JsonProperty("title")]
         public string EmployeeId { get; set; }
 
-        [JsonProperty("houseOwnerId")]
-        public string OwnerId { get; set; }
+        [JsonProperty("timesInMinutes")]
+        public int TimesInMinutes { get; set; }
 
-        [JsonProperty("startTimeUtc")]
-        public DateTime StartTimeUtc { get; set; }
-
-        [JsonProperty("endTimeUtc")]
-        public DateTime EndTimeUtc { get; set; }
-
-        [JsonProperty("title")]
-        public string Title { get; set; }
-
-        [JsonProperty("houseOwnerFirstName")]
-        public string OwnerFirstName { get; set; }
-
-        [JsonProperty("houseOwnerLastName")]
-        public string OwnerLastName { get; set; }
-
-        [JsonProperty("houseOwnerAddress")]
-        public string OwnerAddress { get; set; }
-
-        [JsonProperty("houseOwnerZip")]
-        public string OwnerZip { get; set; }
-
-        [JsonProperty("houseOwnerCity")]
-        public string OwnerCity { get; set; }
-
-        [JsonProperty("houseOwnerLatitude")]
-        public long OwnerLatitude { get; set; }
-
-        [JsonProperty("houseOwnerLongitude")]
-        public long OwnerLongitude { get; set; }
-
-        [JsonProperty("visitState")]
-        public string visitState { get; set; }
-
-        [JsonProperty("expectedTime")]
-        public string expectedTime { get; set; }
-
-        [JsonProperty("tasks")]
-        public IEnumerable<Task> TaskList { get; set; }
-
+        [JsonProperty("price")]
+        public long Price { get; set; }
     }
 
 }
