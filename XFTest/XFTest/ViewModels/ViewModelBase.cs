@@ -8,7 +8,7 @@ namespace XFTest.ViewModels
 {
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
     {
-        private bool _busy;
+        private bool _refreshing;
         private string _title;
         private string _vmException;
 
@@ -18,18 +18,15 @@ namespace XFTest.ViewModels
             PageDialogService = pageDialogService;
         }
 
-        public bool IsBusy
+        public bool IsRefreshing
         {
-            get => _busy;
+            get => _refreshing;
             set
             {
-                _busy = value;
+                _refreshing = value;
                 RaisePropertyChanged();
             }
         }
-
-        public bool IsDataRefreshing { get; set; }
-
         public string Title
         {
             get { return _title; }

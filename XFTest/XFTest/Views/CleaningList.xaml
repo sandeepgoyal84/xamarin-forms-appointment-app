@@ -15,11 +15,11 @@
              NavigationPage.HasNavigationBar="False"
              Title="I DAG" 
              x:Class="XFTest.Views.CleaningList"
+             xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
              BackgroundColor="#f2f2ef">
 
     <ContentPage.Content>
-
-        <StackLayout>
+            <StackLayout>
             <Grid Padding="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -44,6 +44,10 @@
                 </ffimageloadingsvg:SvgCachedImage>
 
             </Grid>
+                
+        <RefreshView 
+                 IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
             <CollectionView ItemsSource="{Binding CleaningLists}" Margin="20,20,20,20">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -124,6 +128,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            </RefreshView>
         </StackLayout>
     </ContentPage.Content>
 

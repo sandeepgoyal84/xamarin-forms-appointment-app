@@ -213,7 +213,7 @@
                             x:Name="Icon4Lbl"
                             Grid.Row="0"
                             Grid.Column="1"
-                            Text="3.6 km¯"
+                            Text="{Binding Distance, StringFormat='{}{0:#,0.0} Km'}"
                             FontFamily="{StaticResource RegularFont}"
                             Style="{StaticResource NormalText12New}"
                             HorizontalOptions="FillAndExpand"
