@@ -6,7 +6,24 @@ namespace XFTest.Models
 {
     public class CleaningList
     {
-        public string Name { get => string.Format("{0} {1}", OwnerFirstName, OwnerLastName).Trim(); }
+        private string _name;
+        private string _address;
+        public string Name
+        {
+            get
+            {
+                _name= string.Format("{0} {1}", OwnerFirstName, OwnerLastName).Trim();
+                return _name;
+            }
+        }
+        public string Address
+        {
+            get
+            {
+                _address = string.Format("{0} {1} {2}", OwnerAddress, OwnerZip, OwnerCity).Trim();
+                return _address;
+            }
+        }
 
         [JsonProperty("visitId")]
         public string VisitId { get; set; }
@@ -48,13 +65,13 @@ namespace XFTest.Models
         public long OwnerLongitude { get; set; }
 
         [JsonProperty("visitState")]
-        public string visitState { get; set; }
+        public string VisitState { get; set; }
 
         [JsonProperty("expectedTime")]
-        public string expectedTime { get; set; }
+        public string ExpectedTime { get; set; }
 
         [JsonProperty("tasks")]
-        public IEnumerable<Task> TaskList { get; set; }
+        public IEnumerable<CleaningTask> TaskList { get; set; }
 
     }
 

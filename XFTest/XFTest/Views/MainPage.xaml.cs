@@ -16,7 +16,7 @@ namespace XFTest.Views
 
         private async void BtnCleaningList_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Views.CleaningList());
+            await Navigation.PushAsync(new CleaningList());
         }
 
         private async void btnCalendar_Clicked(object sender, EventArgs e)

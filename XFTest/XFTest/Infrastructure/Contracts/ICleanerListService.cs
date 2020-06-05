@@ -4,13 +4,14 @@ using System.Text;
 using System.Threading.Tasks;
 using XFTest.Infrastructure.Helpers;
 using XFTest.Infrastructure.Repository.JsonRepository;
+using XFTest.Models;
 
 namespace XFTest.Infrastructure.Contracts
 {
-    public class ICleanerListService
+    public interface ICleanerListService
     {
 
-        Task<ServiceResponse<CleanerListService>> GetDailyTasks();
+        Task<ServiceResponse<IEnumerable<CleaningList>>> GetDailyTasks();
     }
 
 }

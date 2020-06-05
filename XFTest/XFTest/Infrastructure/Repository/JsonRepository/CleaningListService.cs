@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using XFTest.Infrastructure.Contracts;
 using XFTest.Infrastructure.Helpers;
@@ -10,9 +8,10 @@ namespace XFTest.Infrastructure.Repository.JsonRepository
 {
     public class CleaningListService : ICleanerListService
     {
-        async public Task<ServiceResponse<IEnumerable<CleaningList>>> GetDailyTasks() {
-
-            var result = await JsonDataHandler.RetrieveData<IEnumerable<CleaningList>>();
+        async public Task<ServiceResponse<IEnumerable<CleaningList>>> GetDailyTasks()
+        {
+            var jsonDataHandler = new JsonDataHandler();
+            var result = await jsonDataHandler.RetrieveData<IEnumerable<CleaningList>>();
             return result;
         }
     }

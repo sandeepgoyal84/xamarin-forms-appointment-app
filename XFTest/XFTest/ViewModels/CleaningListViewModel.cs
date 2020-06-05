@@ -1,58 +1,65 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Navigation;
+using Prism.Services;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Threading.Tasks;
+using XFTest.Infrastructure.Contracts;
 using XFTest.Models;
-using Prism.Mvvm;
-using Prism.Navigation;
-using Prism.Services.Dialogs;
 
 namespace XFTest.ViewModels
 {
-	public class CleaningListViewModel : BindableBase, INotifyPropertyChanged
+    public class CleaningListViewModel : ViewModelBase
     {
-        readonly IList<CleaningList> source;
+        private readonly ICleanerListService _cleanerListService;
+        public ObservableCollection<CleaningList> CleaningLists { get; set; }
 
-        public ObservableCollection<CleaningList> Monkeys { get; private set; }
-
-
-        public CleaningListViewModel( IDialogService dialogService, INavigationService navigationService)
+        public CleaningListViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ICleanerListService cleanerListService)
+            : base(navigationService, pageDialogService)
         {
-            source = new List<CleaningList>();
-            CreateMonkeyCollection();
+            _cleanerListService = cleanerListService;
+            Title = "I Dag";
+
+            IsBusy = true;
+            _cleanerListService = cleanerListService;
+            CleaningLists = new ObservableCollection<CleaningList>();
+
+            Task.Run((Action)RefreshViewModelTask);
         }
 
-        void CreateMonkeyCollection()
+        private async void RefreshViewModelTask()
         {
-            source.Add(new CleaningList
+            try
             {
-                Name = "Wash1",
-
-            });
-
-            source.Add(new CleaningList
+                if (!IsDataRefreshing)
+                {
+                    IsDataRefreshing = true;
+                    var cleaningListResponse = await _cleanerListService.GetDailyTasks();
+                    if (await HasExceptionfound(cleaningListResponse.Exception)) return;
+                    if (cleaningListResponse.Exception != null)
+                    {
+                        IsBusy = false;
+                        IsDataRefreshing = false;
+                        VmException = cleaningListResponse.Exception.Message;
+                        await ShowNetworkErrorDialog().ConfigureAwait(false);
+                        return;
+                    }
+                    CleaningLists.Clear();
+                    foreach (var cleaningList in cleaningListResponse.Result)
+                    {
+                        CleaningLists.Add(cleaningList);
+                    }
+                    IsBusy = false;
+                    IsDataRefreshing = false;
+                }
+            }
+            catch (Exception ex) {
+                var dd = ex;
+            }
+            finally
             {
-                Name = "Wash2",
-
-            });
-
-            source.Add(new CleaningList
-            {
-                Name = "Wash3",
-
-            });
-
-            source.Add(new CleaningList
-            {
-                Name = "Wash4",
-
-            });
-
-            source.Add(new CleaningList
-            {
-                Name = "Wash5",
-            });
-
-            Monkeys = new ObservableCollection<CleaningList>(source);
+                IsBusy = false;
+                IsDataRefreshing = false;
+            }
         }
     }
 }

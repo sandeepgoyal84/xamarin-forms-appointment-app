@@ -2,7 +2,7 @@
 
 namespace XFTest.Models
 {
-    public class Task
+    public class CleaningTask
     {
 
         [JsonProperty("taskId")]

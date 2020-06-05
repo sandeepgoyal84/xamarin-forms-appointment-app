@@ -4,6 +4,8 @@ using XFTest.ViewModels;
 using XFTest.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XFTest.Infrastructure.Contracts;
+using XFTest.Infrastructure.Repository.JsonRepository;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XFTest
@@ -30,6 +32,7 @@ namespace XFTest
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.Register<ICleanerListService, CleaningListService>();
         }
     }
 }

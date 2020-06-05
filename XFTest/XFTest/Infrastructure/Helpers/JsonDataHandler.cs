@@ -3,29 +3,46 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace XFTest.Infrastructure.Helpers
 {
-    static public class JsonDataHandler
+     public class JsonDataHandler
     {
-        static JObject _jsonData;
-        static JsonDataHandler()
+        private string _jsonData;
+        public JsonDataHandler()
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "\\XF-Test-Json.json");
-            _jsonData = JObject.Parse(File.ReadAllText(path));
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(JsonDataHandler)).Assembly;
+            Stream stream = assembly.GetManifestResourceStream("XFTest.DummyData.json");
+            using (var reader = new System.IO.StreamReader(stream))
+            {
+                _jsonData = reader.ReadToEnd();
+            }
+
+            //var jsonFileName="DummyData.json";
+            //var assembly = typeof(MainPage).GetTypeInfo().Assembly;
+            //Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
+            //using (var reader = new System.IO.StreamReader(stream))
+            //{
+            //    _jsonData = reader.ReadToEnd();
+
+            //    //Converting JSON Array Objects into generic list    
+            //    //ObjContactList = JsonConvert.DeserializeObject<ContactList>(jsonString);
+            //}
+            //_jsonData = JObject.Parse(File.ReadAllText(path));
         }
 
-        static public async Task<ServiceResponse<T>> RetrieveData<T>()
+        public async Task<ServiceResponse<T>> RetrieveData<T>()
         {
             var serviceResponse = new ServiceResponse<T>();
             try
                 {
-                    var response = await Task.Run(() => { return _jsonData; });
+                    var response = await Task.Run(() => { return JObject.Parse(_jsonData); });
                     if ((bool)response["success"])
                     {
-                        var content = (string)response["data"];
+                        var content = response["data"].ToString();
                         serviceResponse.Result = JsonConvert.DeserializeObject<T>(content);
                     }
                     serviceResponse.IsSuccess = (bool)response["success"];
