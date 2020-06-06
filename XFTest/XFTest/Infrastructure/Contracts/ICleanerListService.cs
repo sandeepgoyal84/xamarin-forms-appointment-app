@@ -11,7 +11,7 @@ namespace XFTest.Infrastructure.Contracts
     public interface ICleanerListService
     {
 
-        Task<ServiceResponse<IEnumerable<CleaningList>>> GetDailyTasks();
+        Task<ServiceResponse<IEnumerable<CleaningList>>> GetDailyTasks(DateTime cleanListDate);
     }
 
 }

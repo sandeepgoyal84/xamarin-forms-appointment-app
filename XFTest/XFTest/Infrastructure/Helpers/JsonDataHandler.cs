@@ -22,7 +22,7 @@ namespace XFTest.Infrastructure.Helpers
             }
         }
 
-        public async Task<ServiceResponse<T>> RetrieveData<T>()
+        public async Task<ServiceResponse<T>> RetrieveData<T>(DateTime cleanListDate)
         {
             var serviceResponse = new ServiceResponse<T>();
             try

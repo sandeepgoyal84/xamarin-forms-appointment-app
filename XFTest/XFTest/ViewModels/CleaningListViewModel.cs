@@ -20,15 +20,21 @@ namespace XFTest.ViewModels
             //Title = "I Dag";
             _cleanerListService = cleanerListService;
             CleaningLists = new ObservableCollection<CleaningList>();
-            RefreshCommand = new Command(() => { RefreshViewModelTask(); });
             CleaningDate = DateTime.Now;
-            RefreshViewModelTask();
+            RefreshCommand = new Command(() => { RefreshViewModelTask(CleaningDate); });
+            RefreshViewModelTask(CleaningDate);
         }
 
         public DateTime CleaningDate
         {
             get => _cleaningDate;
-            set { _cleaningDate= value; RaisePropertyChanged(); RaisePropertyChanged(nameof(SubTitle)); }
+            set
+            {
+                _cleaningDate = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(SubTitle));
+                RefreshViewModelTask(CleaningDate);
+            }
         }
 
         public ObservableCollection<CleaningList> CleaningLists { get; set; }
@@ -40,14 +46,14 @@ namespace XFTest.ViewModels
             get { return CleaningDate.ToShortDateString() == DateTime.Today.ToShortDateString() ? "I Dag" : CleaningDate.ToString("dd MMM yyyy"); }
             //set { /*SetProperty(*/ref _title, value); }
         }
-        private async void RefreshViewModelTask()
+        private async void RefreshViewModelTask(DateTime cleanListDate)
         {
             try
             {
                 if (!IsRefreshing)
                 {
                     IsRefreshing = true;
-                    var cleaningListResponse = await _cleanerListService.GetDailyTasks();
+                    var cleaningListResponse = await _cleanerListService.GetDailyTasks(cleanListDate);
                     if (await HasExceptionfound(cleaningListResponse.Exception)) return;
                     if (cleaningListResponse.Exception != null)
                     {
