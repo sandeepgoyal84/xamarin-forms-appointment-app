@@ -20,6 +20,8 @@
 
     <ContentPage.Content>
             <StackLayout>
+            <views:CalendarView SelectedDate="{Binding Path=SelectedDate, Mode=TwoWay}"></views:CalendarView>
+            <Label Text="{Binding SelectedDate}"></Label>
             <Grid Padding="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
