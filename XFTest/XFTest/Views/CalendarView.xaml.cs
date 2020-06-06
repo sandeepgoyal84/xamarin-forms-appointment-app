@@ -1,10 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using Prism.Mvvm;
-using System;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XFTest.Common;
+using XFTest.Models;
 
 namespace XFTest.Views
 {
@@ -17,19 +16,22 @@ namespace XFTest.Views
 
         public CalendarView()
         {
+            InitializeModel();
             InitializeComponent();
-            BindingContext = new CalVM();
-            //SelectedDate = DateTime.Now;
         }
+
+        public ObservableCollectionIndexer<DayCell> DayCollection { get; set; }
+
+        public ICommand NextMonthCommand { get; set; }
+
+        public ICommand PrevMonthCommand { get; set; }
+
+        public DateTime RunningMonth { get; set; }
 
         public DateTime SelectedDate
         {
             get => (DateTime)GetValue(SelectedDateProperty);
-            set
-            {
-                SetValue(SelectedDateProperty, value);
-                ((CalVM)BindingContext).ChoosedDate = value;
-            }
+            set => SetValue(SelectedDateProperty, value);
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -167,17 +169,11 @@ namespace XFTest.Views
 
         private static void SelectedDateValueChanged(BindableObject bindable, Object oldValue, Object newValue)
         {
-            var yy = 0;
+            ((CalendarView)bindable).RunningMonth = (DateTime)newValue;
+            ((CalendarView)bindable).UpdateCalendar();
         }
-    }
 
-    public class CalVM : BindableBase
-    {
-        private DateTime _runningMonth;
-
-        private DateTime _selectedMonth;
-
-        public CalVM()
+        private void InitializeModel()
         {
             DayCollection = new ObservableCollectionIndexer<DayCell>();
             var tempDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -192,11 +188,9 @@ namespace XFTest.Views
                     IsSelected = tt == DateTime.Today,
                     IsVisible = true
                 });
-
             }
             for (; i < 31; i++)
             {
-
                 DayCollection.Add(new DayCell()
                 {
                     Date = (i + 1).ToString("D2"),
@@ -209,58 +203,6 @@ namespace XFTest.Views
             NextMonthCommand = new Command(() => { OpenNextMonth(); });
             PrevMonthCommand = new Command(() => { OpenPrevMonth(); });
         }
-
-        public ObservableCollectionIndexer<DayCell> DayCollection { get; set; }
-        public ICommand NextMonthCommand { get; set; }
-
-        public ICommand PrevMonthCommand { get; set; }
-        public DateTime RunningMonth
-        {
-            get => _runningMonth; 
-            set
-            {
-                _runningMonth = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public DateTime ChoosedDate
-        {
-            get => _selectedMonth;
-            set
-            {
-                _selectedMonth = value;
-
-                RunningMonth = new DateTime(((DateTime)value).Year, ((DateTime)value).Month, 1);
-                UpdateCalendar();
-            }
-        }
-
-        public void UpdateCalendar()
-        {
-            //DayCollection.collection.Clear();
-            var tempDate = new DateTime(RunningMonth.Year, RunningMonth.Month, 1);
-            int i = 0;
-            for (; i < DateTime.DaysInMonth(RunningMonth.Year, RunningMonth.Month); i++)
-            {
-                var tt = tempDate.AddDays(i);
-
-                DayCollection[i].Date = (i + 1).ToString("D2");
-                DayCollection[i].Day = tt.ToString("ddd");
-                DayCollection[i].IsSelected = tt == ChoosedDate;
-                DayCollection[i].IsVisible = true;
-
-            }
-            for (; i < 31; i++)
-            {
-                DayCollection[i].Date = (i + 1).ToString("D2");
-                DayCollection[i].Day = string.Empty;
-                DayCollection[i].IsSelected = false;
-                DayCollection[i].IsVisible = false;
-
-            }
-        }
-
         private void OpenNextMonth()
         {
             RunningMonth = RunningMonth.AddMonths(1);
@@ -272,77 +214,28 @@ namespace XFTest.Views
             RunningMonth = RunningMonth.AddMonths(-1);
             UpdateCalendar();
         }
-    }
 
-    public class DayCell : ObservableObject
-    {
-        private string _date;
-        private string _day;
-        private bool _isSelected;
-        private bool _isVisible;
-
-        public string Date
+        private void UpdateCalendar()
         {
-            get => _date;
-            set
+            lblMonthYear.Text = RunningMonth.ToString("MMM yyyy");
+            var tempDate = new DateTime(RunningMonth.Year, RunningMonth.Month, 1);
+            int i = 0;
+            for (; i < DateTime.DaysInMonth(RunningMonth.Year, RunningMonth.Month); i++)
             {
-                _date = value;
-                RaisePropertyChanged();
-            }
-        }
+                var tt = tempDate.AddDays(i);
 
-        public string Day
-        {
-            get => _day;
-            set
+                DayCollection[i].Date = (i + 1).ToString("D2");
+                DayCollection[i].Day = tt.ToString("ddd");
+                DayCollection[i].IsSelected = tt == SelectedDate;
+                DayCollection[i].IsVisible = true;
+            }
+            for (; i < 31; i++)
             {
-                _day = value;
-                RaisePropertyChanged();
+                DayCollection[i].Date = (i + 1).ToString("D2");
+                DayCollection[i].Day = string.Empty;
+                DayCollection[i].IsSelected = false;
+                DayCollection[i].IsVisible = false;
             }
-        }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    public class ObservableCollectionIndexer<T>
-    {
-        // Declare an array to store the data elements.
-        public ObservableCollection<T> collection;
-
-        public ObservableCollectionIndexer(ObservableCollection<T> collection)
-        {
-            this.collection = collection;
-        }
-
-        public ObservableCollectionIndexer()
-        {
-            this.collection = new ObservableCollection<T>();
-        }
-
-        // Define the indexer to allow client code to use [] notation.
-        public T this[int i] => collection[i];
-
-        public void Add(T value)
-        {
-            collection.Add(value);
         }
     }
 }

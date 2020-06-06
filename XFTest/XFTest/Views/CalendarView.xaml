@@ -11,8 +11,7 @@
              x:Name="this"
              x:Class="XFTest.Views.CalendarView">
     <ContentView.Content>
-        <StackLayout>
-
+        <StackLayout BindingContext="{x:Reference this}">
             <Grid Padding="0" BackgroundColor="#25A87B" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -34,7 +33,7 @@
                             <ColumnDefinition Width="0.5*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Grid.Column="0" Margin="{OnPlatform iOS='0,55,0,0', Android='0,30,0,0'}" Text="{Binding RunningMonth, StringFormat= '{}{0:MMM yyyy}'}"
+                        <Label x:Name="lblMonthYear" Grid.Row="0" Grid.Column="0" Margin="{OnPlatform iOS='0,55,0,0', Android='0,30,0,0'}" Text=""
                                Style="{StaticResource PageHeading}" 
                                HorizontalTextAlignment="Start" 
                                FontFamily="{StaticResource BoldFont}"  FontSize="{StaticResource FontSizeA20I23}" TextColor="#FFFFFF" />

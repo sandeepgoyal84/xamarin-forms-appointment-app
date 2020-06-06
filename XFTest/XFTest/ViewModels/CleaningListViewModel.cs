@@ -13,7 +13,7 @@ namespace XFTest.ViewModels
     public class CleaningListViewModel : ViewModelBase
     {
         private readonly ICleanerListService _cleanerListService;
-        private DateTime selectedDate= DateTime.Now;
+        private DateTime cleaningDate= DateTime.Now;
 
         public CleaningListViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ICleanerListService cleanerListService)
 : base(navigationService, pageDialogService)
@@ -22,12 +22,13 @@ namespace XFTest.ViewModels
             _cleanerListService = cleanerListService;
             CleaningLists = new ObservableCollection<CleaningList>();
             RefreshCommand = new Command(() => { RefreshViewModelTask(); });
+            CleaningDate = DateTime.Now;
             RefreshViewModelTask();
         }
 
         public ObservableCollection<CleaningList> CleaningLists { get; set; }
         public ICommand RefreshCommand { get; set; }
-        public DateTime SelectedDate { get => selectedDate; set { selectedDate = value; RaisePropertyChanged(); } }
+        public DateTime CleaningDate { get => cleaningDate; set { cleaningDate = value; RaisePropertyChanged(); } }
         private async void RefreshViewModelTask()
         {
             try
