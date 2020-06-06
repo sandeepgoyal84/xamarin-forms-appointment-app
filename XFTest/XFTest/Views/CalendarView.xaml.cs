@@ -25,6 +25,7 @@ namespace XFTest.Views
         public ICommand NextMonthCommand { get; set; }
 
         public ICommand PrevMonthCommand { get; set; }
+        public ICommand DateSelectCommand { get; set; }
 
         public DateTime RunningMonth { get; set; }
 
@@ -183,7 +184,7 @@ namespace XFTest.Views
                 var tt = tempDate.AddDays(i);
                 DayCollection.Add(new DayCell()
                 {
-                    Date = (i + 1).ToString("D2"),
+                    Date = (i + 1),//.ToString("D2"),
                     Day = tt.ToString("ddd"),
                     IsSelected = tt == DateTime.Today,
                     IsVisible = true
@@ -193,7 +194,7 @@ namespace XFTest.Views
             {
                 DayCollection.Add(new DayCell()
                 {
-                    Date = (i + 1).ToString("D2"),
+                    Date = (i + 1),//.ToString("D2"),
                     Day = string.Empty,
                     IsSelected = false,
                     IsVisible = false
@@ -202,6 +203,7 @@ namespace XFTest.Views
 
             NextMonthCommand = new Command(() => { OpenNextMonth(); });
             PrevMonthCommand = new Command(() => { OpenPrevMonth(); });
+            DateSelectCommand = new Command((selectedDate) => { SelectedDateChanged(selectedDate); });
         }
         private void OpenNextMonth()
         {
@@ -224,18 +226,24 @@ namespace XFTest.Views
             {
                 var tt = tempDate.AddDays(i);
 
-                DayCollection[i].Date = (i + 1).ToString("D2");
+                DayCollection[i].Date = (i + 1);//.ToString("D2");
                 DayCollection[i].Day = tt.ToString("ddd");
                 DayCollection[i].IsSelected = tt == SelectedDate;
                 DayCollection[i].IsVisible = true;
             }
             for (; i < 31; i++)
             {
-                DayCollection[i].Date = (i + 1).ToString("D2");
+                DayCollection[i].Date = (i + 1);//.ToString("D2");
                 DayCollection[i].Day = string.Empty;
                 DayCollection[i].IsSelected = false;
                 DayCollection[i].IsVisible = false;
             }
+        }
+
+        private void SelectedDateChanged(object selectedDate)
+        {
+            SelectedDate = new DateTime(RunningMonth.Year, RunningMonth.Month, (int)selectedDate);
+            UpdateCalendar();
         }
     }
 }

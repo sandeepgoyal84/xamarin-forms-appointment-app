@@ -4,12 +4,12 @@ namespace XFTest.Models
 {
     public class DayCell : ObservableObject
     {
-        private string _date;
+        private int _date;
         private string _day;
         private bool _isSelected;
         private bool _isVisible;
 
-        public string Date
+        public int Date
         {
             get => _date;
             set

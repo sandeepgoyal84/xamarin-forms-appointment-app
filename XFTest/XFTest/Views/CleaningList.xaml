@@ -21,6 +21,7 @@
     <ContentPage.Content>
             <StackLayout>
             <views:CalendarView SelectedDate="{Binding CleaningDate}"></views:CalendarView>
+            <Label Text="{Binding CleaningDate}"></Label>
             <Grid Padding="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

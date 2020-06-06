@@ -46,7 +46,7 @@
                                 <TapGestureRecognizer Command="{Binding PrevMonthCommand}" NumberOfTapsRequired="1" />
                             </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
                         </ffimageloadingsvg:SvgCachedImage>
-                    
+
                         <ffimageloadingsvg:SvgCachedImage Margin="{OnPlatform iOS='0,60,0,0', Android='0,30,0,0'}" 
                                 Source="Arrow_Right.svg" 
                                 WidthRequest="12" 
@@ -62,10 +62,9 @@
 
 
                     <ScrollView BackgroundColor="#25A87B" Orientation="Horizontal" Padding="0, 0, 0, 0" >
-                        <StackLayout Orientation="Horizontal">
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad01" Style="{StaticResource CalDatePad}" >
+                        <StackLayout Orientation="Horizontal" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[0].IsVisible}">
+                                <Grid x:Name="calPad01" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -74,31 +73,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl01" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="{Binding DayCollection[0].Date}"  
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl01" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[0].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[0].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[0].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl01" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                        Text="{Binding DayCollection[0].Day, FallbackValue='Mon'}" 
-                                       ></Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl01" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[0].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[0].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[0].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad02" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[1].IsVisible}">
+                                <Grid x:Name="calPad02" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -107,31 +124,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl02" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="{Binding DayCollection[1].Date, FallbackValue='02'}"  
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl02" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[1].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[1].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[1].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl02" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                        Text="{Binding DayCollection[1].Day, FallbackValue='Tue'}" 
-                                       ></Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl02" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[1].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[1].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[1].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad03" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[2].IsVisible}">
+                                <Grid x:Name="calPad03" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -140,66 +175,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl03" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="{Binding DayCollection[2].Date, FallbackValue='03'}" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl03" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[2].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[2].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[2].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl03" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       Text="{Binding DayCollection[2].Day, FallbackValue='Wed'}" 
-                                       ></Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl03" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[2].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[2].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[2].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad04" Style="{StaticResource CalDatePad}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                    </Grid.ColumnDefinitions>
-                                    <yummy:PancakeView CornerRadius="{OnPlatform iOS='20', Android='45,45,45,45'}" 
-                                                   BackgroundColor="#368268" 
-                                                   Grid.Row="0" Grid.Column="0"
-                                                   >
-                                        <Label x:Name="dateLbl04" FontFamily="{StaticResource BoldFont}"
-                                                Style="{StaticResource CalDateText}" 
-                                               Text="{Binding DayCollection[3].Date, FallbackValue='04'}" 
-                                                TextColor="{StaticResource ColorBluishGrey}" 
-                                                HorizontalOptions="CenterAndExpand"
-                                                Padding="10,10,10,10"
-                                                />
-                                    </yummy:PancakeView>
-                                    <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl04" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorWhite}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       Text="{Binding DayCollection[3].Day, FallbackValue='Thu'}" 
-                                       Padding="0,5,0,0"
-                                       ></Label>
-                                </Grid>
-
-                            </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad05" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[3].IsVisible}">
+                                <Grid x:Name="calPad04" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -208,30 +226,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl05" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="05" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl04" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[3].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[3].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[3].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl05" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Fr</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl04" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[3].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[3].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[3].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad06" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[4].IsVisible}">
+                                <Grid x:Name="calPad05" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -240,30 +277,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0" 
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl06" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="06" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl05" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[4].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[4].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[4].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl06" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Lø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl05" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[4].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[4].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[4].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad07" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[5].IsVisible}">
+                                <Grid x:Name="calPad06" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -272,31 +328,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl07" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="07" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl06" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[5].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[5].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[5].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
-
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl07" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Sø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl06" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[5].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[5].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[5].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad08" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[6].IsVisible}">
+                                <Grid x:Name="calPad07" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -305,30 +379,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl08" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="08" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl07" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[6].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[6].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[6].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl08" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ma</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl07" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[6].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[6].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[6].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad09" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[7].IsVisible}">
+                                <Grid x:Name="calPad08" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -337,30 +430,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl09" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="09" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl08" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[7].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[7].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[7].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl09" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ti</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl08" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[7].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[7].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[7].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad10" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[8].IsVisible}">
+                                <Grid x:Name="calPad09" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -369,30 +481,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl10" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="10" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl09" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[8].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[8].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[8].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl10" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >On</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl09" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[8].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[8].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[8].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad11" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[9].IsVisible}">
+                                <Grid x:Name="calPad10" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -401,62 +532,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
-                                        <Label x:Name="dateLbl11" Text="11" FontFamily="{StaticResource BoldFont}"
-                                                Style="{StaticResource CalDateText}" 
-                                                TextColor="{StaticResource ColorBluishGrey}" 
-                                                HorizontalOptions="CenterAndExpand"
-                                                HeightRequest="35"
-                                                Padding="4,10,4,0"
-                                                />
-                                    </yummy:PancakeView>
-                                    <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl11" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorWhite}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >To</Label>
-                                </Grid>
-
-                            </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad12" Style="{StaticResource CalDatePad}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                    </Grid.ColumnDefinitions>
-                                    <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl12" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="12" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl10" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[9].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[9].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[9].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl12" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Fr</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl10" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[9].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[9].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[9].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad13" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[10].IsVisible}">
+                                <Grid x:Name="calPad11" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -465,30 +583,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl13" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="13" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl11" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[10].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[10].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[10].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl13" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Lø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl11" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[10].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[10].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[10].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad14" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[11].IsVisible}">
+                                <Grid x:Name="calPad12" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -497,30 +634,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl14" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="14" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl12" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[11].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[11].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[11].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
-
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl14" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Sø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl12" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[11].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[11].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[11].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad15" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[12].IsVisible}">
+                                <Grid x:Name="calPad13" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -529,30 +685,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl15" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="15" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl13" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[12].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[12].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[12].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl15" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ma</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl13" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[12].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[12].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[12].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad16" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[13].IsVisible}">
+                                <Grid x:Name="calPad14" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -561,30 +736,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl16" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="16" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl14" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[13].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[13].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[13].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl16" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ti</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl14" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[13].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[13].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[13].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad17" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[14].IsVisible}">
+                                <Grid x:Name="calPad15" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -593,30 +787,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl17" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="17" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl15" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[14].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[14].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[14].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl17" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >On</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl15" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[14].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[14].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[14].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad18" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[15].IsVisible}">
+                                <Grid x:Name="calPad16" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -625,62 +838,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
-                                        <Label x:Name="dateLbl18" Text="18" FontFamily="{StaticResource BoldFont}"
-                                                Style="{StaticResource CalDateText}" 
-                                                TextColor="{StaticResource ColorBluishGrey}" 
-                                                HorizontalOptions="CenterAndExpand"
-                                                HeightRequest="35"
-                                                Padding="4,10,4,0"
-                                                />
-                                    </yummy:PancakeView>
-                                    <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl18" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorWhite}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >To</Label>
-                                </Grid>
-
-                            </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad19" Style="{StaticResource CalDatePad}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                    </Grid.ColumnDefinitions>
-                                    <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl19" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="19" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl16" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[15].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[15].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[15].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl19" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Fr</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl16" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[15].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[15].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[15].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad20" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[16].IsVisible}">
+                                <Grid x:Name="calPad17" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -689,30 +889,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl20" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="20" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl17" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[16].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[16].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[16].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl20" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Lø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl17" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[16].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[16].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[16].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad21" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[17].IsVisible}">
+                                <Grid x:Name="calPad18" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -721,30 +940,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl21" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="21" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl18" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[17].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[17].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[17].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
-
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl21" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Sø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl18" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[17].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[17].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[17].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad22" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[18].IsVisible}">
+                                <Grid x:Name="calPad19" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -753,30 +991,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl22" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="22" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl19" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[18].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[18].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[18].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl22" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ma</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl19" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[18].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[18].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[18].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad23" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[19].IsVisible}">
+                                <Grid x:Name="calPad20" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -785,30 +1042,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl23" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="23" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl20" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[19].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[19].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[19].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl23" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ti</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl20" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[19].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[19].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[19].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad24" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[20].IsVisible}">
+                                <Grid x:Name="calPad21" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -817,30 +1093,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl24" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="24" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl21" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[20].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[20].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[20].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl24" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >On</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl21" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[20].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[20].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[20].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad25" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[21].IsVisible}">
+                                <Grid x:Name="calPad22" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -849,62 +1144,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
-                                        <Label x:Name="dateLbl25" Text="25" FontFamily="{StaticResource BoldFont}"
-                                                Style="{StaticResource CalDateText}" 
-                                                TextColor="{StaticResource ColorBluishGrey}" 
-                                                HorizontalOptions="CenterAndExpand"
-                                                HeightRequest="35"
-                                                Padding="4,10,4,0"
-                                                />
-                                    </yummy:PancakeView>
-                                    <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl25" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorWhite}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >To</Label>
-                                </Grid>
-
-                            </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad26" Style="{StaticResource CalDatePad}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                    </Grid.ColumnDefinitions>
-                                    <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl26" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="26" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl22" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[21].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[21].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[21].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl26" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Fr</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl22" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[21].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[21].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[21].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad27" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[22].IsVisible}">
+                                <Grid x:Name="calPad23" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -913,30 +1195,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl27" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="27" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl23" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[22].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[22].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[22].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl27" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Lø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl23" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[22].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[22].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[22].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad28" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[23].IsVisible}">
+                                <Grid x:Name="calPad24" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -945,30 +1246,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl28" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="28" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl24" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[23].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[23].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[23].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
-
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl28" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Sø</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl24" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[23].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[23].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[23].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad29" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[24].IsVisible}">
+                                <Grid x:Name="calPad25" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -977,30 +1297,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl29" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="29" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl25" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[24].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[24].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[24].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl29" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ma</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl25" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[24].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[24].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[24].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad30" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[25].IsVisible}">
+                                <Grid x:Name="calPad26" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -1009,30 +1348,49 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl30" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="30" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl26" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[25].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[25].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[25].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl30" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >Ti</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl26" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[25].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[25].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[25].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-                            <StackLayout HorizontalOptions="StartAndExpand" >
-                                <Grid x:Name="calPad31" Style="{StaticResource CalDatePad}" >
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[26].IsVisible}">
+                                <Grid x:Name="calPad27" Style="{StaticResource CalDatePad}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
@@ -1041,29 +1399,251 @@
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
                                     <yummy:PancakeView  
-                                        Grid.Row="0" Grid.Column="0"
-                                        >
+            Grid.Row="0" Grid.Column="0">
                                         <Label 
-                                            x:Name="dateLbl31" FontFamily="{StaticResource BoldFont}"
-                                            Style="{StaticResource CalDateText}" Text="31" 
-                                            TextColor="{StaticResource ColorBluishGrey}" 
-                                            HorizontalOptions="CenterAndExpand"
-                                            HeightRequest="35"
-                                            Padding="4,10,4,0"
-                                            />
+                x:Name="dateLbl27" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[26].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[26].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[26].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
                                     </yummy:PancakeView>
                                     <Label 
-                                       Grid.Row="1" Grid.Column="0"
-                                       x:Name="dayLbl31" 
-                                       FontFamily="{StaticResource RegularFont}"
-                                       Style="{StaticResource NormalText11Cal}" 
-                                       TextColor="{StaticResource ColorBluishGrey}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       >On</Label>
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl27" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[26].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[26].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[26].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
                                 </Grid>
                             </StackLayout>
-
-
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[27].IsVisible}">
+                                <Grid x:Name="calPad28" Style="{StaticResource CalDatePad}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <yummy:PancakeView  
+            Grid.Row="0" Grid.Column="0">
+                                        <Label 
+                x:Name="dateLbl28" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[27].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[27].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[27].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
+                                    </yummy:PancakeView>
+                                    <Label 
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl28" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[27].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[27].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[27].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[28].IsVisible}">
+                                <Grid x:Name="calPad29" Style="{StaticResource CalDatePad}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <yummy:PancakeView  
+            Grid.Row="0" Grid.Column="0">
+                                        <Label 
+                x:Name="dateLbl29" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[28].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[28].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[28].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
+                                    </yummy:PancakeView>
+                                    <Label 
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl29" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[28].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[28].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[28].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[29].IsVisible}">
+                                <Grid x:Name="calPad30" Style="{StaticResource CalDatePad}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <yummy:PancakeView  
+            Grid.Row="0" Grid.Column="0">
+                                        <Label 
+                x:Name="dateLbl30" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[29].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[29].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[29].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
+                                    </yummy:PancakeView>
+                                    <Label 
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl30" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[29].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[29].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[29].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </StackLayout>
+                            <StackLayout HorizontalOptions="StartAndExpand" IsVisible="{Binding DayCollection[30].IsVisible}">
+                                <Grid x:Name="calPad31" Style="{StaticResource CalDatePad}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <yummy:PancakeView  
+            Grid.Row="0" Grid.Column="0">
+                                        <Label 
+                x:Name="dateLbl31" FontFamily="{StaticResource BoldFont}"
+                Style="{StaticResource CalDateText}" Text="{Binding DayCollection[30].Date,StringFormat='{0:D2}'}"   
+                TextColor="{StaticResource ColorBluishGrey}" 
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="35"
+                Padding="4,10,4,0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DayCollection[30].IsSelected}" Value="True">
+                                                    <Setter Property="Padding" Value="10,10,10,10" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <yummy:PancakeView.Triggers>
+                                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DayCollection[30].IsSelected}" Value="True">
+                                                <Setter Property="CornerRadius" Value="{OnPlatform iOS='20', Android='45,45,45,45'}" />
+                                                <Setter Property="BackgroundColor" Value="#368268" />
+                                            </DataTrigger>
+                                        </yummy:PancakeView.Triggers>
+                                    </yummy:PancakeView>
+                                    <Label 
+            Grid.Row="1" Grid.Column="0"
+            x:Name="dayLbl31" 
+            FontFamily="{StaticResource RegularFont}"
+            Style="{StaticResource NormalText11Cal}" 
+            TextColor="{StaticResource ColorBluishGrey}" 
+            HorizontalOptions="CenterAndExpand"
+            Text="{Binding DayCollection[30].Day}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding DayCollection[30].IsSelected}" Value="True">
+                                                <Setter Property="Padding" Value="0,5,0,0" />
+                                                <Setter Property="TextColor" Value="{StaticResource ColorWhite}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateSelectCommand}" CommandParameter="{Binding DayCollection[30].Date}" NumberOfTapsRequired="1" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </StackLayout>
 
                         </StackLayout>
                     </ScrollView>
