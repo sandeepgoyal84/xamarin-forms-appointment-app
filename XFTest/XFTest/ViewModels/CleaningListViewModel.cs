@@ -13,12 +13,11 @@ namespace XFTest.ViewModels
     public class CleaningListViewModel : ViewModelBase
     {
         private readonly ICleanerListService _cleanerListService;
-        private DateTime cleaningDate= DateTime.Now;
-
+        private DateTime _cleaningDate = DateTime.Now;
         public CleaningListViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ICleanerListService cleanerListService)
 : base(navigationService, pageDialogService)
         {
-            Title = "I Dag";
+            //Title = "I Dag";
             _cleanerListService = cleanerListService;
             CleaningLists = new ObservableCollection<CleaningList>();
             RefreshCommand = new Command(() => { RefreshViewModelTask(); });
@@ -26,9 +25,21 @@ namespace XFTest.ViewModels
             RefreshViewModelTask();
         }
 
+        public DateTime CleaningDate
+        {
+            get => _cleaningDate;
+            set { _cleaningDate= value; RaisePropertyChanged(); RaisePropertyChanged(nameof(SubTitle)); }
+        }
+
         public ObservableCollection<CleaningList> CleaningLists { get; set; }
+
         public ICommand RefreshCommand { get; set; }
-        public DateTime CleaningDate { get => cleaningDate; set { cleaningDate = value; RaisePropertyChanged(); } }
+
+        public string SubTitle
+        {
+            get { return CleaningDate.ToShortDateString() == DateTime.Today.ToShortDateString() ? "I Dag" : CleaningDate.ToString("dd MMM yyyy"); }
+            //set { /*SetProperty(*/ref _title, value); }
+        }
         private async void RefreshViewModelTask()
         {
             try

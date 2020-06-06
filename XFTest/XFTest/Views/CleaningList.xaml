@@ -31,10 +31,14 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="PageHeading" Grid.Row="0" Grid.Column="0" Margin="{OnPlatform iOS='75,60,0,0', Android='75,30,20,0'}" Text="I DAG" 
+                <Label x:Name="PageHeading" Grid.Row="0" Grid.Column="0" Margin="{OnPlatform iOS='75,60,0,0', Android='75,30,20,0'}" Text="{Binding SubTitle}" 
                        Style="{StaticResource PageHeading}" 
                        HorizontalTextAlignment="Center" 
-                       FontFamily="{StaticResource BoldFont}" />
+                       FontFamily="{StaticResource BoldFont}" >
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding CleaningDate}" ></DataTrigger>
+                    </Label.Triggers>
+                </Label>
                 <ffimageloadingsvg:SvgCachedImage Margin="{OnPlatform iOS='0,60,0,0', Android='0,30,20,0'}" 
                         Source="Calender.svg" 
                         WidthRequest="20" 

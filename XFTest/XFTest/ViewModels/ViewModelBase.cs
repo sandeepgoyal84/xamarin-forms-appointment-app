@@ -21,11 +21,7 @@ namespace XFTest.ViewModels
         public bool IsRefreshing
         {
             get => _refreshing;
-            set
-            {
-                _refreshing = value;
-                RaisePropertyChanged();
-            }
+            set { _refreshing= value; RaisePropertyChanged(); }
         }
         public string Title
         {
