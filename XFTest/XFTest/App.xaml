@@ -9,6 +9,8 @@
 
         <ResourceDictionary>
 
+            <x:Boolean x:Key="True">True</x:Boolean>
+            <x:Boolean x:Key="False">False</x:Boolean>
             <Color x:Key="ColorWhite">#ffffff</Color>
             <Color x:Key="ColorPageHeading">#465A54</Color>
             <Color x:Key="ColorTitleHeading">#465A54</Color>

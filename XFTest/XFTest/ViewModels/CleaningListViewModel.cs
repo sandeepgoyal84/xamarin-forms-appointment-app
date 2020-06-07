@@ -14,14 +14,17 @@ namespace XFTest.ViewModels
     {
         private readonly ICleanerListService _cleanerListService;
         private DateTime _cleaningDate = DateTime.Now;
+        private bool _isCalendarVisible = false;
+        private ObservableCollection<CleaningList> _cleaningLists;
 
-        public CleaningListViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ICleanerListService cleanerListService)
-: base(navigationService, pageDialogService)
+        public CleaningListViewModel(INavigationService navigationService, IPageDialogService pageDialogService
+            , ICleanerListService cleanerListService) : base(navigationService, pageDialogService)
         {
             _cleanerListService = cleanerListService;
             CleaningLists = new ObservableCollection<CleaningList>();
             CleaningDate = DateTime.Today;
             RefreshCommand = new Command(() => { RefreshViewModelTask(CleaningDate); });
+            ShowHideCalendarCommand = new Command((visiblityStatus) => { IsCalendarVisible = (bool)visiblityStatus; });
             RefreshViewModelTask(CleaningDate);
         }
 
@@ -33,20 +36,36 @@ namespace XFTest.ViewModels
                 _cleaningDate = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(SubTitle));
-                RefreshViewModelTask(CleaningDate);
+                RefreshViewModelTask(_cleaningDate);
             }
         }
 
-        public ObservableCollection<CleaningList> CleaningLists { get; set; }
+        public ObservableCollection<CleaningList> CleaningLists
+        {
+            get => _cleaningLists; set
+            {
+                _cleaningLists = value;
+                RaisePropertyChanged(nameof(HaveAnyTask));
+            }
+        }
 
         public ICommand RefreshCommand { get; set; }
+        public ICommand ShowHideCalendarCommand { get; set; }
+        public bool HaveAnyTask { get=> CleaningLists.Count>0;}
+        public bool IsCalendarVisible
+        {
+            get => _isCalendarVisible; set
+            {
+                _isCalendarVisible = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public string SubTitle
         {
             get { return CleaningDate.ToShortDateString() == DateTime.Today.ToShortDateString() ? "I Dag" : CleaningDate.ToString("dd MMM yyyy"); }
             //set { /*SetProperty(*/ref _title, value); }
         }
-
         private async void RefreshViewModelTask(DateTime cleanListDate)
         {
             try
@@ -67,17 +86,21 @@ namespace XFTest.ViewModels
                     CleaningLists.Clear();
                     double sourceLat = default;
                     double sourceLon = default;
+                    int i = 0;
                     foreach (var cleaningList in cleaningListResponse.Result)
                     {
                         sourceLat = sourceLat == default(double) ? cleaningList.OwnerLatitude : sourceLat;
                         sourceLon = sourceLon == default(double) ? cleaningList.OwnerLongitude : sourceLon;
                         cleaningList.Distance = Calculator.Distance(sourceLat, sourceLon, cleaningList.OwnerLatitude, cleaningList.OwnerLongitude);
-                        CleaningLists.Add(cleaningList);
+                        i++;
+                        if (i < 9) CleaningLists.Add(cleaningList);
                         sourceLat = cleaningList.OwnerLatitude;
                         sourceLon = cleaningList.OwnerLongitude;
                     }
                     //IsBusy = false;
+                    RaisePropertyChanged(nameof(HaveAnyTask));
                     IsRefreshing = false;
+
                 }
             }
             catch (Exception ex)

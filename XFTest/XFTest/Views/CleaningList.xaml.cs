@@ -25,8 +25,13 @@ namespace XFTest.Views
         {
             base.OnSizeAllocated(width, height);
             var state = width < 280 ? "Small" : width < 360 ? "Medium" : "Large";
-            VisualStateManager.GoToState(PageHeading, state);
+            VisualStateManager.GoToState(PageHeading, state); 
+            VisualStateManager.GoToState(lblNoTasks, state); 
         }
 
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var tt = 0;
+        }
     }
 }
