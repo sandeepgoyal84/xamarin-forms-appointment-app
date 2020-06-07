@@ -62,7 +62,7 @@
                     HeightRequest="40">
                     <Button
                         x:Name="ButtonStyle"
-                        BackgroundColor="#4E77D6"
+                        BackgroundColor="{Binding VisitStateColor}"
                         Text="{Binding VisitState}"
                         FontFamily="{StaticResource BoldFont}"
                         Style="{StaticResource buttonStyleList}" />

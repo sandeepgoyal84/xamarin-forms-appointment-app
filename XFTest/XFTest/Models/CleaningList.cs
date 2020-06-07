@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace XFTest.Models
 {
-    public class CleaningList: BaseModel
+    public class CleaningList : BaseModel
     {
         private string _name;
         private string _address;
@@ -12,7 +13,7 @@ namespace XFTest.Models
         {
             get
             {
-                _name= string.Format("{0} {1}", OwnerFirstName, OwnerLastName).Trim();
+                _name = string.Format("{0} {1}", OwnerFirstName, OwnerLastName).Trim();
                 return _name;
             }
         }
@@ -73,6 +74,20 @@ namespace XFTest.Models
         [JsonProperty("tasks")]
         public IEnumerable<CleaningTask> TaskList { get; set; }
         public double Distance { get; set; }
+        public string VisitStateColor
+        {
+            get
+            {
+                switch (VisitState.ToLower())
+                {
+                    case "todo": return "#4E77D6"; 
+                    case "inprogress": return "#F5C709"; 
+                    case "done": return "#25A87B"; 
+                    case "rejected": return "#EF6565"; 
+                }
+                return "#EF6565";
+            }
+        }
     }
 
 }
