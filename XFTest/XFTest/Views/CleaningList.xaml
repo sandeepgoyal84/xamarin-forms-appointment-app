@@ -27,7 +27,7 @@
     <ContentPage.Content>
         <RefreshView 
                  IsRefreshing="{Binding IsRefreshing}"
-                 Command="{Binding RefreshCommand}" VerticalOptions="Center" HeightRequest="1000">
+                 Command="{Binding RefreshCommand}">
             <StackLayout>
                 <views:CalendarView SelectedDate="{Binding CleaningDate}" IsVisible="{Binding IsCalendarVisible}"></views:CalendarView>
                 <Grid Padding="0"  IsVisible="{Binding IsCalendarVisible, Converter={StaticResource InvertedBooleanConverter}}">
@@ -140,12 +140,23 @@
                         </DataTrigger>
                     </CollectionView.Triggers>
                 </CollectionView>
-                <Label x:Name="lblNoTasks" IsVisible="{Binding HaveAnyTask, Converter={StaticResource InvertedBooleanConverter}}" VerticalOptions="FillAndExpand"  Text="No Task Assigned" HorizontalTextAlignment="Center">
-                    <Label.GestureRecognizers>
+                <StackLayout Margin="20,-20,20,20" IsVisible="{Binding HaveAnyTask, Converter={StaticResource InvertedBooleanConverter}}"  HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
+                    <Frame                               
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"   
+                                HasShadow="False"
+                                IsClippedToBounds="True" BackgroundColor="#ffffff" CornerRadius="15" >
+                        <Label x:Name="lblNoTasks" Margin="20,20,20,20"  HorizontalOptions="Center"
+                                VerticalOptions="Center"  Text="No Tasks Assigned" HorizontalTextAlignment="Center">
+
+                        </Label>
+                    </Frame>
+                    <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer  Command="{Binding ShowHideCalendarCommand}"
                                      CommandParameter="{StaticResource False}" Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                    </Label.GestureRecognizers>
-                </Label>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
             </StackLayout>
         </RefreshView>
     </ContentPage.Content>

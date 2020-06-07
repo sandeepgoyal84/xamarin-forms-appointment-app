@@ -93,7 +93,7 @@ namespace XFTest.ViewModels
                         sourceLon = sourceLon == default(double) ? cleaningList.OwnerLongitude : sourceLon;
                         cleaningList.Distance = Calculator.Distance(sourceLat, sourceLon, cleaningList.OwnerLatitude, cleaningList.OwnerLongitude);
                         i++;
-                        if (i < 9) CleaningLists.Add(cleaningList);
+                        if (i < 1) CleaningLists.Add(cleaningList);
                         sourceLat = cleaningList.OwnerLatitude;
                         sourceLon = cleaningList.OwnerLongitude;
                     }
