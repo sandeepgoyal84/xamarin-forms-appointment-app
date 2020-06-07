@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace XFTest.Infrastructure.Helpers
@@ -12,6 +10,7 @@ namespace XFTest.Infrastructure.Helpers
     public class JsonDataHandler
     {
         private string _jsonData;
+
         public JsonDataHandler()
         {
             var assembly = IntrospectionExtensions.GetTypeInfo(typeof(JsonDataHandler)).Assembly;
