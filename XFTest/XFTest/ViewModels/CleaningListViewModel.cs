@@ -86,14 +86,12 @@ namespace XFTest.ViewModels
                     CleaningLists.Clear();
                     double sourceLat = default;
                     double sourceLon = default;
-                    int i = 0;
                     foreach (var cleaningList in cleaningListResponse.Result)
                     {
                         sourceLat = sourceLat == default(double) ? cleaningList.OwnerLatitude : sourceLat;
                         sourceLon = sourceLon == default(double) ? cleaningList.OwnerLongitude : sourceLon;
                         cleaningList.Distance = Calculator.Distance(sourceLat, sourceLon, cleaningList.OwnerLatitude, cleaningList.OwnerLongitude);
-                        i++;
-                        if (i < 1) CleaningLists.Add(cleaningList);
+                        CleaningLists.Add(cleaningList);
                         sourceLat = cleaningList.OwnerLatitude;
                         sourceLon = cleaningList.OwnerLongitude;
                     }

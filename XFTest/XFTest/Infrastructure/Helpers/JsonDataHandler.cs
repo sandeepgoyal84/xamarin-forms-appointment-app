@@ -2,7 +2,9 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace XFTest.Infrastructure.Helpers
@@ -29,7 +31,18 @@ namespace XFTest.Infrastructure.Helpers
                 var response = await Task.Run(() => { return JObject.Parse(_jsonData); });
                 if ((bool)response["success"])
                 {
-                    serviceResponse.Result = JsonConvert.DeserializeObject<T>(response["data"].ToString());
+                    var srchItems = ((JArray)response["data"]).SelectTokens("$.[?(@.taskDate=='" + cleanListDate.ToString("yyyy-MM-dd") + "')]");
+                    StringBuilder sb = new StringBuilder("[");
+                    bool shoulRemove = false;
+                    foreach (var item in srchItems)
+                    {
+                        sb.Append(item.ToString());
+                        sb.Append(",");
+                        shoulRemove = true;
+                    }
+                    if (shoulRemove) { sb.Remove(sb.Length - 1, 1); }
+                    sb.Append("]");
+                    serviceResponse.Result = JsonConvert.DeserializeObject<T>(sb.ToString());
                 }
                 serviceResponse.IsSuccess = (bool)response["success"];
                 serviceResponse.ResponseCode = (string)response["message"];
