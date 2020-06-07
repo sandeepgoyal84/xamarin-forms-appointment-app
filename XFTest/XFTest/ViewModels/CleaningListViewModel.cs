@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XFTest.Common;
-using XFTest.Infrastructure.Contracts;
+using XFTest.Services.Contracts;
 using XFTest.Models;
 
 namespace XFTest.ViewModels
@@ -13,7 +13,7 @@ namespace XFTest.ViewModels
     public class CleaningListViewModel : ViewModelBase
     {
         private readonly ICleanerListService _cleanerListService;
-        private DateTime _cleaningDate = DateTime.Now;
+        private DateTime _cleaningDate = DateTime.Today;
         private bool _isCalendarVisible = false;
         private ObservableCollection<CleaningList> _cleaningLists;
 
@@ -22,7 +22,6 @@ namespace XFTest.ViewModels
         {
             _cleanerListService = cleanerListService;
             CleaningLists = new ObservableCollection<CleaningList>();
-            CleaningDate = DateTime.Today;
             RefreshCommand = new Command(() => { RefreshViewModelTask(CleaningDate); });
             ShowHideCalendarCommand = new Command((visiblityStatus) => { IsCalendarVisible = (bool)visiblityStatus; });
             RefreshViewModelTask(CleaningDate);
@@ -33,10 +32,13 @@ namespace XFTest.ViewModels
             get => _cleaningDate;
             set
             {
-                _cleaningDate = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(SubTitle));
-                RefreshViewModelTask(_cleaningDate);
+                if (value != _cleaningDate)
+                {
+                    _cleaningDate = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(SubTitle));
+                    RefreshViewModelTask(_cleaningDate);
+                }
             }
         }
 
@@ -51,7 +53,7 @@ namespace XFTest.ViewModels
 
         public ICommand RefreshCommand { get; set; }
         public ICommand ShowHideCalendarCommand { get; set; }
-        public bool HaveAnyTask { get=> CleaningLists.Count>0;}
+        public bool HaveAnyTask { get => CleaningLists.Count > 0; }
         public bool IsCalendarVisible
         {
             get => _isCalendarVisible; set
@@ -74,13 +76,8 @@ namespace XFTest.ViewModels
                 {
                     IsRefreshing = true;
                     var cleaningListResponse = await _cleanerListService.GetDailyTasks(cleanListDate);
-                    if (await HasExceptionfound(cleaningListResponse.Exception)) return;
-                    if (cleaningListResponse.Exception != null)
+                    if (await HasExceptionfound(cleaningListResponse.Exception))
                     {
-                        //IsBusy = false;
-                        IsRefreshing = false;
-                        VmException = cleaningListResponse.Exception.Message;
-                        await ShowNetworkErrorDialog().ConfigureAwait(false);
                         return;
                     }
                     CleaningLists.Clear();
@@ -103,7 +100,7 @@ namespace XFTest.ViewModels
             }
             catch (Exception ex)
             {
-                await ShowNetworkErrorDialog();
+                await ShowErrorDialog(ex.Message);
             }
             finally
             {

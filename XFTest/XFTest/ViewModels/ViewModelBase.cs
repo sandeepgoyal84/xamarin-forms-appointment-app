@@ -21,7 +21,14 @@ namespace XFTest.ViewModels
         public bool IsRefreshing
         {
             get => _refreshing;
-            set { _refreshing = value; RaisePropertyChanged(); }
+            set
+            {
+                if (_refreshing != value)
+                {
+                    _refreshing = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         public string Title
@@ -39,7 +46,7 @@ namespace XFTest.ViewModels
                 {
                     _vmException = value;
                 }
-                //TODO openup
+                //TODO logging to local files/webshare for debugging later
             }
         }
 
@@ -62,10 +69,11 @@ namespace XFTest.ViewModels
         {
         }
 
-        protected async Task ShowNetworkErrorDialog()
+        protected async Task ShowErrorDialog(string errMessage)
         {
+            errMessage = string.IsNullOrEmpty(errMessage) ? "Error Occured. Please check your net connection." : errMessage;
             await PageDialogService.DisplayAlertAsync("Error",
-                    "Netwrok error. Please check your net connection",
+                    errMessage,
                     "OK");
         }
 
@@ -74,7 +82,7 @@ namespace XFTest.ViewModels
             if (ex == null) return false;
 
             VmException = ex.Message;
-            await ShowNetworkErrorDialog();
+            await ShowErrorDialog(ex.Message);
 
             return true;
         }

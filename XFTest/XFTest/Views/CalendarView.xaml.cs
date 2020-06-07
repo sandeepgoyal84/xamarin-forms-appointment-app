@@ -23,7 +23,6 @@ namespace XFTest.Views
         public ObservableCollectionIndexer<DayCell> DayCollection { get; set; }
 
         public ICommand NextMonthCommand { get; set; }
-
         public ICommand PrevMonthCommand { get; set; }
         public ICommand DateSelectCommand { get; set; }
 
@@ -184,7 +183,7 @@ namespace XFTest.Views
                 var tt = tempDate.AddDays(i);
                 DayCollection.Add(new DayCell()
                 {
-                    Date = (i + 1),//.ToString("D2"),
+                    Date = (i + 1),
                     Day = tt.ToString("ddd"),
                     IsSelected = tt == DateTime.Today,
                     IsVisible = true

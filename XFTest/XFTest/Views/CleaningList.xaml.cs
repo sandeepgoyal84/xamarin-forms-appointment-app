@@ -18,7 +18,6 @@ namespace XFTest.Views
         public CleaningList()
         {
             InitializeComponent();
-           // BindingContext = new CleaningListViewModel(dialogService);
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -29,9 +28,15 @@ namespace XFTest.Views
             VisualStateManager.GoToState(lblNoTasks, state); 
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void OpenCalendar_Tapped(object sender, EventArgs e)
         {
-            var tt = 0;
+            await calendar.TranslateTo(0, -100, 0);
+            await calendar.TranslateTo(0, 0, 200);
+        }
+        private async void HideCalendar_Tapped(object sender, EventArgs e)
+        {
+            await calendar.TranslateTo(0, 0, 0);
+            await calendar.TranslateTo(0, -100, 200);
         }
     }
 }

@@ -14,8 +14,11 @@ namespace XFTest.Models
             get => _date;
             set
             {
-                _date = value;
-                RaisePropertyChanged();
+                if (_date != value)
+                {
+                    _date = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -24,8 +27,11 @@ namespace XFTest.Models
             get => _day;
             set
             {
-                _day = value;
-                RaisePropertyChanged();
+                if (_day != value)
+                {
+                    _day = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -34,8 +40,11 @@ namespace XFTest.Models
             get => _isSelected;
             set
             {
-                _isSelected = value;
-                RaisePropertyChanged();
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 
@@ -44,8 +53,11 @@ namespace XFTest.Models
             get => _isVisible;
             set
             {
-                _isVisible = value;
-                RaisePropertyChanged();
+                if (_isVisible != value)
+                {
+                    _isVisible = value;
+                    RaisePropertyChanged();
+                }
             }
         }
     }

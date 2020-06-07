@@ -2,18 +2,17 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XFTest.Infrastructure.Helpers
+namespace XFTest.Services.Helpers
 {
     public class JsonDataHandler
     {
-        private string _jsonData;
+        static string _jsonData;
 
-        public JsonDataHandler()
+        static JsonDataHandler()
         {
             var assembly = IntrospectionExtensions.GetTypeInfo(typeof(JsonDataHandler)).Assembly;
             Stream stream = assembly.GetManifestResourceStream("XFTest.DummyData.json");
@@ -23,7 +22,7 @@ namespace XFTest.Infrastructure.Helpers
             }
         }
 
-        public async Task<ServiceResponse<T>> RetrieveData<T>(DateTime cleanListDate)
+        public static async Task<ServiceResponse<T>> RetrieveData<T>(DateTime cleanListDate)
         {
             var serviceResponse = new ServiceResponse<T>();
             try

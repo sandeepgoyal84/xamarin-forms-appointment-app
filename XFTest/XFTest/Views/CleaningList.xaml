@@ -3,10 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
-             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:views="clr-namespace:XFTest.Views"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
@@ -15,7 +12,6 @@
              x:Class="XFTest.Views.CleaningList"             
              xmlns:converters="clr-namespace:XFTest.Converters;assembly=XFTest"   
              xmlns:vm="clr-namespace:XFTest.ViewModels;assembly=XFTest"   
-             xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core"
              BackgroundColor="#f2f2ef">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -28,8 +24,9 @@
         <RefreshView 
                  IsRefreshing="{Binding IsRefreshing}"
                  Command="{Binding RefreshCommand}">
-            <StackLayout>
-                <views:CalendarView SelectedDate="{Binding CleaningDate}" IsVisible="{Binding IsCalendarVisible}"></views:CalendarView>
+            <StackLayout >
+                <views:CalendarView x:Name="calendar" SelectedDate="{Binding CleaningDate,Mode=TwoWay}" IsVisible="{Binding IsCalendarVisible}" >
+                </views:CalendarView>
                 <Grid Padding="0"  IsVisible="{Binding IsCalendarVisible, Converter={StaticResource InvertedBooleanConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -42,16 +39,13 @@
                        Style="{StaticResource PageHeading}" 
                        HorizontalTextAlignment="Center" 
                        FontFamily="{StaticResource BoldFont}" >
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding CleaningDate}" ></DataTrigger>
-                        </Label.Triggers>
                     </Label>
                     <ffimageloadingsvg:SvgCachedImage Margin="{OnPlatform iOS='0,60,0,0', Android='0,30,20,0'}" 
                         Source="Calender.svg" 
                         WidthRequest="20" 
                         Grid.Row="0" Grid.Column="1">
                         <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
-                            <TapGestureRecognizer  Command="{Binding ShowHideCalendarCommand}" CommandParameter="{StaticResource True}"  NumberOfTapsRequired="1"></TapGestureRecognizer>
+                            <TapGestureRecognizer  Tapped="OpenCalendar_Tapped" Command="{Binding ShowHideCalendarCommand}" CommandParameter="{StaticResource True}"  NumberOfTapsRequired="1"></TapGestureRecognizer>
                         </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
                     </ffimageloadingsvg:SvgCachedImage>
                 </Grid>
@@ -70,7 +64,7 @@
                                 </Frame>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CleaningListViewModel}}, Path=ShowHideCalendarCommand}"
-                                     CommandParameter="{StaticResource False}" Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                     CommandParameter="{StaticResource False}" Tapped="HideCalendar_Tapped" NumberOfTapsRequired="1"></TapGestureRecognizer>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
                             <!--<StackLayout Margin="10">
@@ -154,7 +148,7 @@
                     </Frame>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer  Command="{Binding ShowHideCalendarCommand}"
-                                     CommandParameter="{StaticResource False}" Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                     CommandParameter="{StaticResource False}" Tapped="HideCalendar_Tapped" NumberOfTapsRequired="1"></TapGestureRecognizer>
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
             </StackLayout>

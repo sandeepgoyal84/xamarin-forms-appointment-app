@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using XFTest.Infrastructure.Helpers;
+using XFTest.Services.Helpers;
 using XFTest.Models;
 
-namespace XFTest.Infrastructure.Contracts
+namespace XFTest.Services.Contracts
 {
     public interface ICleanerListService
     {
